@@ -16,6 +16,7 @@ namespace LWSInjector
 
         private void btnAttach_Click(object sender, EventArgs e)
         {
+            // Reset the button state
             if (btnAttach.Text.Equals("Attached"))
             {
                 btnAttach.Text = "Attach to Anomaly";
@@ -24,6 +25,7 @@ namespace LWSInjector
                 return;
             }
 
+            // Check if Anomaly is running
             Process anomaly = getAnomaly();
             if (anomaly == null)
             {
@@ -31,6 +33,7 @@ namespace LWSInjector
                 return;
             }
 
+            // Inject the dll
             InjectorAPI.InjectionReturnCodes returnValue = InjectorAPI.InjectLoadLibrary(LWS_DLL.Data, anomaly.ProcessName);
             if (returnValue != InjectorAPI.InjectionReturnCodes.Success)
             {
@@ -38,6 +41,7 @@ namespace LWSInjector
                 return;
             }
 
+            // Change the button state
             btnAttach.Text = "Attached";
             btnAttach.BackColor = Color.FromArgb(0, 64, 0);
             btnAttach.FlatAppearance.BorderColor = Color.Green;
@@ -47,6 +51,8 @@ namespace LWSInjector
         {
             Application.Exit();
         }
+
+        // Move window start
 
         bool isMouseDown;
         int mouseX;
@@ -77,6 +83,8 @@ namespace LWSInjector
                 SetDesktopLocation(MousePosition.X - mouseX, MousePosition.Y - mouseY);
             }
         }
+
+        // Move window end
 
         private Process getAnomaly()
         {

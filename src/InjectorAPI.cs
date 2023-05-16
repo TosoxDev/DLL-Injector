@@ -91,33 +91,44 @@ namespace LWSInjector
 
         public static InjectionReturnCodes InjectLoadLibrary(byte[] data, string procname)
         {
+            // Create new temporary file
             string imagePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()) + ".dll";
+
+            // Fill the file with the data
             File.WriteAllBytes(imagePath, data);
+
+            // Inject the file into the process
             return InjectLoadLibrary(imagePath, procname);
         }
 
         public static InjectionReturnCodes InjectLoadLibrary(string dllpath, string procname)
         {
+            // Find the process with the name procname
             Process[] procs = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(procname));
             if (procs.Length == 0)
                 return InjectionReturnCodes.InvalidProcess;
 
+            // Create a handle to the process
             IntPtr hProc = OpenProcess(ProcessAccessFlags.All, true, procs[0].Id);
             if (hProc == IntPtr.Zero)
                 return InjectionReturnCodes.HandleAccessError;
 
+            // Get a pointer to the LoadLibrary function of kernel32
             IntPtr loadlibAddy = GetProcAddress(GetModuleHandle("kernel32.dll"), "LoadLibraryA");
             if (loadlibAddy == IntPtr.Zero)
                 return InjectionReturnCodes.InvalidLoadLibraryAddress;
 
+            // Allocate memory
             IntPtr loc = VirtualAllocEx(hProc, IntPtr.Zero, MAX_PATH, AllocationType.Commit | AllocationType.Reserve, MemoryProtection.ExecuteReadWrite);
             if (loc == IntPtr.Zero)
                 return InjectionReturnCodes.InvalidVirtualAdress;
 
+            // Load the data of the dll into memory
             bool result = WriteProcessMemory(hProc, loc, dllpath, dllpath.Length, out _);
             if (!result)
                 return InjectionReturnCodes.WriteMemoryError;
 
+            // Inject the dll
             IntPtr hThread = CreateRemoteThread(hProc, IntPtr.Zero, 0, loadlibAddy, loc, 0, out _);
             if (hThread == IntPtr.Zero) 
                 return InjectionReturnCodes.CreateThreadError;
