@@ -8,8 +8,8 @@
 
 ## Functionality
 
-This sample project loads a DLL from a .cs file and stores it as a temporary file on the local disk, which is then injected into a process.
-The [data](res/TestDLL.dll.cs) of the DLL was generated and exported with [HxD](https://mh-nexus.de/de/hxd/).
+This sample project loads the binary data of a dll and stores it as a temporary file on the local disk, which is then injected into a process.
+The [binary data](res/TestDLL.dll.cs) of the dll was generated and exported with [HxD](https://mh-nexus.de/de/hxd/).
 
 ## Original Use of this Project
 
