@@ -141,6 +141,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="readme-res\error.jpg" />
+    <Content Include="readme-res\preview.jpg" />
+    <Content Include="readme-res\success.jpg" />
+    <Content Include="readme-res\warning.jpg" />
     <Content Include="res\icon.ico" />
     <Content Include="res\icon_resized.png" />
   </ItemGroup>
