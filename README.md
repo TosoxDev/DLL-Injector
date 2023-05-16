@@ -6,10 +6,16 @@
 
 > **Important: This repository is intended as a resource for developers working on DLL-Injection**
 
-## Description
+## Functionality
 
 This sample project loads a DLL from a .cs file and stores it as a temporary file on the local disk, which is then injected into a process.
 The [data](res/TestDLL.dll.cs) of the DLL was generated and exported with [HxD](https://mh-nexus.de/de/hxd/).
+
+## Original Use of this Project
+
+_LWS_ is an acronym for _Live Weather Simulator_. This program was created for the game [S.T.A.L.K.E.R. Anomaly](https://www.moddb.com/mods/stalker-anomaly),
+with the function to adjust the current weather in the game to the current weather in real life. For this purpose, the memory of the game must be accessed,
+which was achieved by DLL injection.
 
 ## Preview
 
